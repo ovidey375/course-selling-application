@@ -11,6 +11,7 @@ import { HiMenu, HiX } from "react-icons/hi"; // Import menu and close icons
 import logo from "/logo.png";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../utils/utils";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
@@ -34,12 +35,9 @@ function Courses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5001/api/v1/course/courses",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${BACKEND_URL}/course/courses`, {
+          withCredentials: true,
+        });
         console.log(response.data.courses);
         setCourses(response.data.courses);
         setLoading(false);
@@ -53,12 +51,9 @@ function Courses() {
   // Logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5001/api/v1/user/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${BACKEND_URL}/user/logout`, {
+        withCredentials: true,
+      });
       toast.success(response.data.message);
       localStorage.removeItem("user");
       setIsLoggedIn(false);

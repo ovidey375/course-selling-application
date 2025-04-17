@@ -7,6 +7,7 @@ import { IoMdSettings } from "react-icons/io";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { RiHome2Fill } from "react-icons/ri";
 import { HiMenu, HiX } from "react-icons/hi"; // Icons for sidebar toggle
+import { BACKEND_URL } from "../utils/utils";
 
 const Purchases = () => {
   const [purchases, setPurchase] = useState([]);
@@ -29,15 +30,12 @@ const Purchases = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5001/api/v1/user/purchased",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${BACKEND_URL}/user/purchased`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        });
         setPurchase(response.data.courseData);
       } catch (error) {
         setErrorMessage("Failed to fetch purchase data");
@@ -49,12 +47,9 @@ const Purchases = () => {
   // Logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5001/api/v1/admin/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${BACKEND_URL}/admin/logout`, {
+        withCredentials: true,
+      });
       toast.success(response.data.message);
       localStorage.removeItem("user");
       navigate("/login");

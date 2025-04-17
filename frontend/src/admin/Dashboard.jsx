@@ -3,16 +3,14 @@ import { Link } from "react-router-dom";
 import logo from "/logo.png";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { BACKEND_URL } from "../utils/utils";
 
 function Dashboard() {
   const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5001/api/v1/admin/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${BACKEND_URL}/admin/logout`, {
+        withCredentials: true,
+      });
       toast.success(response.data.message);
       localStorage.removeItem("admin");
     } catch (error) {
